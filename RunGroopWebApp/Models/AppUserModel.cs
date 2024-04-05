@@ -9,5 +9,3 @@
         public ICollection<RaceModel> Races { get; set; }
     }
 }
-
-//teste
