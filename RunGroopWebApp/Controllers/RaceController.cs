@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RunGroopWebApp.Data;
 using RunGroopWebApp.Interfaces;
 using RunGroopWebApp.Models;
+using RunGroopWebApp.Repository;
 
 namespace RunGroopWebApp.Controllers
 {
@@ -24,6 +25,21 @@ namespace RunGroopWebApp.Controllers
         {
             RaceModel race = await _raceRepository.GetByIdAsync(id);
             return View(race);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(RaceModel race)
+        {
+            if (!ModelState.IsValid)
+                return View(race);
+
+            _raceRepository.Add(race);
+            return RedirectToAction("Index");
         }
     }
 }
