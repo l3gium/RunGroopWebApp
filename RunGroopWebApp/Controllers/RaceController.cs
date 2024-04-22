@@ -65,5 +65,14 @@ namespace RunGroopWebApp.Controllers
             }
             return View(raceVM);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var race = await _raceRepository.GetByIdAsync(id);
+            if (race == null)
+                return View("Error");
+
+            var raceVm = new Ed
+        }
     }
 }
