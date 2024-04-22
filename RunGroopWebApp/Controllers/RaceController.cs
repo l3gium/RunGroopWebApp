@@ -72,7 +72,61 @@ namespace RunGroopWebApp.Controllers
             if (race == null)
                 return View("Error");
 
-            var raceVm = new Ed
+            var raceVM = new EditRaceViewModel
+            {
+                Title = race.Title,
+                Description = race.Description,
+                AddressId = race.AddressId,
+                URL = race.Image,
+                RaceCategory = race.RaceCategory
+            };
+
+            return View(raceVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, EditRaceViewModel raceVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Failed to edit race");
+                return View("Edit", raceVM);
+            }
+
+            var userRace = await _raceRepository.GetByIdAsyncAsNoTracking(id);
+
+            if (userRace != null)
+            {
+                try
+                {
+                    await _photoService.DeletePhotoAsync(userRace.Image);
+                }
+                catch (Exception err)
+                {
+                    ModelState.AddModelError("", "Could not delete photo");
+                    return View(raceVM);
+                }
+
+                var photoResult = await _photoService.AddPhotoAsync(raceVM.Image);
+
+                var race = new RaceModel
+                {
+                    Id = id,
+                    Title = raceVM.Title,
+                    Description = raceVM.Description,
+                    Image = photoResult.Url.ToString(),
+                    AddressId = raceVM.AddressId,
+                    Address = raceVM.Address,
+                };
+
+                _raceRepository.Update(race);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(raceVM);
+            }
         }
     }
 }
