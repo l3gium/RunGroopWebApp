@@ -67,13 +67,12 @@ namespace RunGroopWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-            if (!ModelState.IsValid)
-                return View(registerViewModel);
+            if (!ModelState.IsValid) return View(registerViewModel);
 
             var user = await _userManager.FindByEmailAsync(registerViewModel.EmailAddress);
             if (user != null)
             {
-                TempData["Error"] = "Email already in use";
+                TempData["Error"] = "This email address is already in use";
                 return View(registerViewModel);
             }
 
@@ -82,7 +81,6 @@ namespace RunGroopWebApp.Controllers
                 Email = registerViewModel.EmailAddress,
                 UserName = registerViewModel.EmailAddress
             };
-
             var newUserResponse = await _userManager.CreateAsync(newUser, registerViewModel.Password);
 
             if (newUserResponse.Succeeded)
@@ -90,6 +88,33 @@ namespace RunGroopWebApp.Controllers
 
             return RedirectToAction("Index", "Race");
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return View(registerViewModel);
+
+        //    var user = await _userManager.FindByEmailAsync(registerViewModel.EmailAddress);
+        //    if (user != null)
+        //    {
+        //        TempData["Error"] = "Email already in use";
+        //        return View(registerViewModel);
+        //    }
+
+        //    var newUser = new AppUserModel()
+        //    {
+        //        Email = registerViewModel.EmailAddress,
+        //        UserName = registerViewModel.EmailAddress
+        //    };
+
+        //    var newUserResponse = await _userManager.CreateAsync(newUser, registerViewModel.Password);
+
+        //    if (newUserResponse.Succeeded)
+        //        await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+
+        //    return RedirectToAction("Index", "Race");
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Logout()
