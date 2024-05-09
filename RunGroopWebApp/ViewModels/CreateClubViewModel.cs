@@ -11,5 +11,6 @@ namespace RunGroopWebApp.ViewModels
         public AddressModel Address { get; set; }
         public IFormFile Image { get; set; }
         public ClubCategoryEnum ClubCategory { get; set; }
+        public string AppUserId { get; set; }
     }
 }

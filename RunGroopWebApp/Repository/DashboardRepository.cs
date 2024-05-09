@@ -17,16 +17,16 @@ namespace RunGroopWebApp.Repository
 
         public async Task<List<ClubModel>> GetAllUserClubs()
         {
-            var curUser = _httpContextAccessor.HttpContext?.User;
-            var userClubs = _context.Clubs.Where(r => r.AppUser.Id == curUser.ToString());
+            var curUser = _httpContextAccessor.HttpContext?.User.GetUserId();
+            var userClubs = _context.Clubs.Where(r => r.AppUser.Id == curUser);
             return userClubs.ToList();
 
         }
 
         public async Task<List<RaceModel>> GetAllUserRaces()
         {
-            var curUser = _httpContextAccessor.HttpContext?.User;
-            var userRaces = _context.Races.Where(r => r.AppUser.Id == curUser.ToString());
+            var curUser = _httpContextAccessor.HttpContext?.User.GetUserId();
+            var userRaces = _context.Races.Where(r => r.AppUser.Id == curUser);
             return userRaces.ToList();
         }
     }
