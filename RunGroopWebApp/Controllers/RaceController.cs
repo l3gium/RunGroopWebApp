@@ -132,5 +132,24 @@ namespace RunGroopWebApp.Controllers
                 return View(raceVM);
             }
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var racesDetails = await _raceRepository.GetByIdAsync(id);
+            if (racesDetails == null)
+                return View("Error");
+            return View(racesDetails);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteRace(int id)
+        {
+            var raceDetails = await _raceRepository.GetByIdAsync(id);
+            if(raceDetails == null)
+                return View("Error");
+
+            _raceRepository.Delete(raceDetails);
+            return RedirectToAction("Index");
+        }
     }
 }
