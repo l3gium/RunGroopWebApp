@@ -7,7 +7,7 @@ namespace RunGroopWebApp.Models
     {
         
         public int? Pace { get; set; }
-        public int? Milage { get; set; }
+        public int? Mileage { get; set; }
         [ForeignKey("AddressModel")]
         public int? AddressId { get; set; }
         public AddressModel? Address { get; set; }
