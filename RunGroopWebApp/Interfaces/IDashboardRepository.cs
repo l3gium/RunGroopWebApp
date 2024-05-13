@@ -6,5 +6,6 @@ namespace RunGroopWebApp.Interfaces
     {
         Task<List<RaceModel>> GetAllUserRaces();
         Task<List<ClubModel>> GetAllUserClubs();
+        Task<AppUserModel> GetUserById(string id);
     }
 }
